@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings | Lebanon Flow</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f5f7fb; color: #14213d; }
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 7%; background: white; box-shadow: 0 8px 20px rgba(0,0,0,.06); }
+    .logo { font-weight: 800; font-size: 22px; }
+    a { text-decoration: none; color: #14213d; background: #e8eefc; padding: 11px 16px; border-radius: 12px; font-weight: 700; }
+    main { padding: 40px 7%; }
+    .card { background: white; padding: 28px; border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,.06); max-width: 700px; }
+    h1 { margin-bottom: 8px; }
+    p { color: #64748b; line-height: 1.6; margin-bottom: 10px; }
+    strong { color: #14213d; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="logo">✦ Lebanon Flow</div>
+    <a href="/dashboard">Dashboard</a>
+  </nav>
+  <main>
+    <div class="card">
+      <h1>Settings</h1>
+      <p>This is your Appwrite Auth account info. Nothing is saved to tables.</p>
+      <p><strong>Name:</strong> <span id="nameText">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="emailText">Loading...</span></p>
+      <p><strong>User ID:</strong> <span id="idText">Loading...</span></p>
+    </div>
+  </main>
+  <script type="module">
+    import { Client, Account } from "https://cdn.jsdelivr.net/npm/appwrite@17.0.0/+esm";
+    async function loadUser() {
+      try {
+        const config = await (await fetch("/api/config")).json();
+        const client = new Client().setEndpoint(config.endpoint).setProject(config.projectId);
+        const user = await new Account(client).get();
+        document.getElementById("nameText").textContent = user.name || "No name";
+        document.getElementById("emailText").textContent = user.email || "No email";
+        document.getElementById("idText").textContent = user.$id;
+      } catch { window.location.href = "/login"; }
+    }
+    loadUser();
+  </script>
+</body>
+</html>

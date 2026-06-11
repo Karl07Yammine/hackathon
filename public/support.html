@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support | Lebanon Flow</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #14213d;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 7%;
+      background: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #14213d;
+      background: #e8eefc;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 40px 7%;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 14px;
+      background: #2563eb;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="logo">✦ Lebanon Flow</div>
+    <a href="/dashboard">Dashboard</a>
+  </nav>
+  <main>
+    <h1>Support Center</h1>
+    <p>Frontend-only demo support page. No support messages are saved.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Call Support</h3>
+        <p>Speak directly with support.</p><a href="tel:+96100000000">Call</a>
+      </div>
+      <div class="card">
+        <h3>WhatsApp</h3>
+        <p>Send documents or location.</p><a href="https://wa.me/96100000000" target="_blank">Open WhatsApp</a>
+      </div>
+      <div class="card">
+        <h3>Email</h3>
+        <p>Use email for non-urgent support.</p><a href="mailto:support@lebanonflow.org">Email</a>
+      </div>
+    </div>
+  </main>
+  <script type="module">
+    import { Client, Account } from "https://cdn.jsdelivr.net/npm/appwrite@17.0.0/+esm";
+    async function protect() {
+      try {
+        const config = await (await fetch("/api/config")).json();
+        const client = new Client().setEndpoint(config.endpoint).setProject(config.projectId);
+        await new Account(client).get();
+      } catch { window.location.href = "/login"; }
+    }
+    // protect();
+  </script>
+</body>
+
+</html>

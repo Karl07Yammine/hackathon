@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lebanon Flow</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #14213d;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 7%;
+      background: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    .links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    a,
+    button {
+      text-decoration: none;
+      border: 0;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-weight: 700;
+    }
+
+    a {
+      color: #14213d;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn.secondary {
+      background: #e8eefc;
+      color: #2563eb;
+    }
+
+    .hero {
+      min-height: calc(100vh - 82px);
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 40px;
+      align-items: center;
+      padding: 60px 7%;
+    }
+
+    .badge {
+      display: inline-block;
+      color: #2563eb;
+      background: #e8eefc;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.02;
+      margin-bottom: 18px;
+    }
+
+    p {
+      color: #526070;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 26px;
+      flex-wrap: wrap;
+    }
+
+    .phone {
+      background: #111827;
+      border-radius: 36px;
+      padding: 18px;
+      max-width: 360px;
+      margin-left: auto;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .25);
+    }
+
+    .screen {
+      background: white;
+      min-height: 560px;
+      border-radius: 28px;
+      padding: 22px;
+    }
+
+    .mini {
+      padding: 16px;
+      border-radius: 18px;
+      background: #f1f5f9;
+      margin: 14px 0;
+    }
+
+    .mini.active {
+      background: #dbeafe;
+    }
+
+    @media (max-width: 850px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .phone {
+        margin: 0;
+      }
+
+      .links {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="logo">✦ Lebanon Flow</div>
+    <div class="links">
+      <a href="/services">Services</a>
+      <a href="/support">Support</a>
+      <a href="/login" class="btn secondary">Login</a>
+      <a href="/signup" class="btn">Sign up</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <span class="badge">Lebanon’s smart service bridge</span>
+      <h1>Book help, request support, donate resources, and connect with real service pathways.</h1>
+      <p>Lebanon Flow connects citizens, NGOs, volunteers, donors, and local partners through one simple platform.</p>
+      <div class="actions">
+        <a href="/signup" class="btn">Get Started</a>
+        <a href="/login" class="btn secondary">I already have an account</a>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="screen">
+        <h3>✦ Lebanon Flow</h3>
+        <div class="mini active"><strong>Request matched</strong><br><span>Healthcare support · Beirut</span></div>
+        <div class="mini"><strong>Booking confirmed</strong><br><span>NGO support call · 3:30 PM</span></div>
+        <div class="mini"><strong>Donation routed</strong><br><span>School supplies · Tripoli</span></div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module">
+    import { Client, Account } from "https://cdn.jsdelivr.net/npm/appwrite@17.0.0/+esm";
+
+    async function getAppwriteAccount() {
+      const configResponse = await fetch("/api/config");
+      const config = await configResponse.json();
+      const client = new Client().setEndpoint(config.endpoint).setProject(config.projectId);
+      return new Account(client);
+    }
+
+    async function skipHomeIfLoggedIn() {
+      try {
+        const account = await getAppwriteAccount();
+        await account.get();
+        window.location.href = "/dashboard";
+      } catch (error) {
+        // No active login session. Stay on homepage.
+      }
+    }
+
+    skipHomeIfLoggedIn();
+  </script>
+</body>
+
+</html>
